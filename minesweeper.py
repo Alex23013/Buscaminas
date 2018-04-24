@@ -67,6 +67,29 @@ def mine_counter(maze):
         aux.append(s1)
     return aux
 
+def is_alive(row,col,maze_mines):
+    return maze_mines[row][col] != '@'
+
+def check_visibility(row,col,maze_mines):
+    aux = []
+    if row - 1 >= 0 and maze_mines[row - 1][col] != '@':
+        aux.append((row-1,col))
+    if row + 1 <= len(maze_mines) and maze_mines[row + 1][col] != '@':
+        aux.append((row+1,col))
+    if col - 1 >= 0 and maze_mines[row][col-1] != '@':
+        aux.append((row,col-1))
+    if col + 1 <= len(maze_mines[0]) and maze_mines[row][col+1] != '@':
+        aux.append((row,col+1))
+    if row - 1 >= 0 and col - 1 >= 0  and maze_mines[row - 1][col -1] != '@':
+        aux.append((row-1,col-1))
+    if row + 1 <= len(maze_mines) and col + 1 <= len(maze_mines) and maze_mines[row + 1][col+1] != '@':
+        aux.append((row+1,col+1))
+    if col - 1 >= 0 and row + 1 <= len(maze_mines) and  maze_mines[row+1][col-1] != '@':
+        aux.append((row,col-1))
+    if col + 1 <= len(maze_mines[0]) and row - 1 >= 0 and maze_mines[row-1][col+1] != '@':
+        aux.append((row,col+1))
+    return aux
+     
 
 if __name__ == '__main__':
     maze = make_maze()
@@ -78,3 +101,5 @@ if __name__ == '__main__':
         print(i)
 
     serialized = maze_to_JSON(maze_mines)
+    aux = check_visibility(1,1,maze_mines)
+    print(aux)
