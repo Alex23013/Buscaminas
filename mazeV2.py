@@ -83,16 +83,19 @@ if __name__ == '__main__':
     op = 0
     while playerWon == False and op != 2:
         print('\n')
-        show[posRow][posCol] = 8
+        show[posRow][posCol] = 7
         for i in show:
             print(i)
         op = input("What do you want to do\n 0: move \t 1: unblock\t 2: quit Game\n")
         if op == 0:
             aux = check_mov(posRow,posCol,maze)
-            print(aux)
+            for i in range (0, len(aux)):
+                print(str(i)+":"+str(aux[i]))
             opt = input("What's your next mov? ")
-            (posRow, posCol) = aux[opt-1]
+
+            (posRow, posCol) = aux[opt]
             if posRow == 0 and posCol == 8:
+                print("You Win =D")
                 playerWon = True
                 op = 2
         if op == 1:
