@@ -1,6 +1,7 @@
 from random import shuffle, randrange
 import json
 
+
 def maze_to_JSON(maze):
     serialized = []
     for row in range(0, len(maze)):
@@ -35,42 +36,7 @@ def make_maze(w=5, h=5): # largo = h*2-1
 
     return maze[1:-2]
 
-def mine_counter(maze):
-    aux = []
-    for k in range(0, len(maze)):
-        s1 = ''
-        for l in range(0, len(maze[k])):
-            cont = 0
-            if maze[k][l] == '-':
-                if k - 1 >= 0 and maze[k - 1][l] == '@':
-                    cont += 1
-                if k + 1 < len(maze) and maze[k + 1][l] == '@':
-                    cont += 1
-                if l - 1 >= 0 and maze[k][l - 1] == '@':
-                    cont += 1
-                if l + 1 < len(maze[k]) and maze[k][l + 1] == '@':
-                    cont += 1
-                if k - 1 >= 0 and l - 1 >= 0 and maze[k - 1][l - 1] == '@':
-                    cont += 1
-                if k + 1 < len(maze) and l + 1 < len(maze[k]) and maze[k + 1][
-                            l + 1] == '@':
-                    cont += 1
-                if k - 1 >= 0 and l + 1 < len(maze[k]) and maze[k - 1][
-                            l + 1] == '@':
-                    cont += 1
-                if k + 1 < len(maze) and l - 1 >= 0 and maze[k + 1][
-                            l - 1] == '@':
-                    cont += 1
-                s1 += str(cont)
-            else:
-                s1 += str(maze[k][l])
-        aux.append(s1)
-    return aux
-
-def is_alive(row,col,maze_mines):
-    return maze_mines[row][col] != '@'
-
-def check_visibility(row,col,maze_mines):
+def check_mov(row,col,maze_mines):
     aux = []
     if row - 1 >= 0 and maze_mines[row - 1][col] != '@':
         aux.append((row-1,col))
@@ -89,17 +55,51 @@ def check_visibility(row,col,maze_mines):
     if col + 1 <= len(maze_mines[0]) and row - 1 >= 0 and maze_mines[row-1][col+1] != '@':
         aux.append((row,col+1))
     return aux
-     
+ 
+def watch(row, col,maze_mines, visible):
+    if maze_mines[row][col] == '@':
+        visible[row][col] = 1
+    else :
+        visible[row][col] = 2
+
+
+playerWon = False
+
 
 if __name__ == '__main__':
+     
     maze = make_maze()
     for i in maze:
         print(i)
 
-    maze_mines = mine_counter(maze)
-    #for i in maze_mines:
-    #    print(i)
-
-    serialized = maze_to_JSON(maze_mines)
-    aux = check_visibility(0,0,maze_mines)
-    print(aux)
+    serialized = maze_to_JSON(maze)
+    
+    show = []
+    for row in range(0, len(maze)):
+        show.append([])
+        for col in range(0, len(maze[0])):
+            show[row].append(0)
+    posRow, posCol = 0, 0
+    op = 0
+    while playerWon == False and op != 2:
+        print('\n')
+        show[posRow][posCol] = 8
+        for i in show:
+            print(i)
+        op = input("What do you want to do\n 0: move \t 1: unblock\t 2: quit Game\n")
+        if op == 0:
+            aux = check_mov(posRow,posCol,maze)
+            print(aux)
+            opt = input("What's your next mov? ")
+            (posRow, posCol) = aux[opt-1]
+            if posRow == 0 and posCol == 8:
+                playerWon = True
+                op = 2
+        if op == 1:
+            x = input("x?: ")
+            y = input("y?: ")
+            watch(x,y,maze,show)
+         
+       
+      
+  
