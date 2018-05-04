@@ -107,7 +107,7 @@ if __name__ == '__main__':
                 print(" ", end= '')
         print()
     serialized = maze_to_JSON(mz)
-    
+    print (serialized)
     show = []
     for row in range(0, len(mz)):
         show.append([])
@@ -121,6 +121,8 @@ if __name__ == '__main__':
     while playerWon == False and op != 2:
         print(op)
         show[posRow][posCol] = 7
+        serial = maze_to_JSON(show)
+        print (serial)
         if ifWin(show) :
             print("You Win =D")
             playerWon = True
