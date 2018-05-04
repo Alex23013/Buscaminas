@@ -94,6 +94,20 @@ def watch(row, col,maze_mines, visible):
 def ifWin(maze):
     return maze[-2][-2] == 7
 
+def printShow(show):
+    for i in show:
+        for j in i:
+            if j == 1 :
+                print("#",end='')
+            elif j == 0:
+                print(" ", end= '')
+            elif j == 7:
+                print("*", end= '')    
+            else :
+                print("█",end='')
+        print()
+
+
 playerWon = False
 
 
@@ -132,18 +146,7 @@ if __name__ == '__main__':
         
         #for i in show:
         #    print(i)
-        for i in show:
-            for j in i:
-                if j == 1 :
-                    print("#",end='')
-                elif j == 0:
-                    print(" ", end= '')
-                elif j == 7:
-                    print("*", end= '')    
-                else :
-                    print("█",end='')
-            print()
-            
+        printShow(show)
         op = int(input("What do you want to do?\n 0: move \t 1: unblock\t 2: quit Game\n"))
         if op == 0:
             aux = check_mov(posRow,posCol,mz,show)
