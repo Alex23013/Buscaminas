@@ -5,7 +5,8 @@ def generate_maze_visible(rows, cols):
     '''
     Returns: a tuple containing the generated maze and the visibility matrix.
     '''
-    maze = generate_maze(rows, cols)
+    maze = generate_maze(rows + 2, cols + 2)
+    maze = [i[1:-1] for i in maze[1:-1]]
     visible = [[False] * len(maze[0]) for i in range(len(maze))]
     return (maze, visible)
 
@@ -26,9 +27,9 @@ def validate_mov(current_row, current_col, next_row, next_col, maze_vis):
     col_size = len(maze_vis[0][0])
 
     # Check boundaries
-    if next_row < 1 or next_row >= row_size - 1:
+    if next_row < 0 or next_row >= row_size:
         return False
-    if next_col < 1 or next_col >= col_size - 1:
+    if next_col < 0 or next_col >= col_size:
         return False
 
     # Check that the next position is adjacent to the current position
@@ -94,11 +95,11 @@ def check_win(pos_row, pos_col, maze_vis):
     col_size = len(maze_vis[0][0])
 
     # Check that the goal square is visible
-    if not maze_vis[1][-2][-2]:
+    if not maze_vis[1][-1][-1]:
         return False
 
     # Check that the position is the same as the goal position
-    if pos_row == row_size - 2 and pos_col == col_size - 2:
+    if pos_row == row_size - 1 and pos_col == col_size - 1:
         return True
 
     return False
