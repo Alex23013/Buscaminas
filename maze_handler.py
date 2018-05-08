@@ -56,6 +56,9 @@ def validate_unlock(target_row, target_col, maze_vis):
     '''
     row_size = len(maze_vis[0])
     col_size = len(maze_vis[0][0])
+    
+    if(check_win(pos_row, pos_col, maze_vis)):
+        return 2
 
     # Check boundaries
     if target_row < 0 or target_row >= row_size:
