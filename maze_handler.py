@@ -14,9 +14,13 @@ def matrix_to_JSON(matrix):
     serialized = []
     for row in range(0, len(matrix)):
         for col in range(0, len(matrix[0])):
+            if matrix[row][col] == True:
+                value = 1
+            else:
+                value = 0                    
             serialized.append({'row': row,
                                'col': col,
-                               'content': matrix[row][col]})
+                               'content': value})
     return json.dumps(serialized)
 
 def validate_mov(current_row, current_col, next_row, next_col, maze_vis):
